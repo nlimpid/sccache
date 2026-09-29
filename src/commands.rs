@@ -758,6 +758,10 @@ pub fn run_command(cmd: Command) -> Result<i32> {
                 println!("=========================");
             }
         }
+        Command::GoCacheProg => {
+            trace!("Command::GoCacheProg");
+            crate::go_cacheprog::run(crate::go_cacheprog::default_go_cacheprog_dir())?;
+        }
         Command::InternalStartServer => {
             trace!("Command::InternalStartServer");
             if env::var("SCCACHE_ERROR_LOG").is_ok() {
