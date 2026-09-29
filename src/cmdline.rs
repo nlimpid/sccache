@@ -80,6 +80,8 @@ pub enum Command {
         env_vars: Vec<(OsString, OsString)>,
     },
     DebugPreprocessorCacheEntries,
+    /// Speak Go's `GOCACHEPROG` protocol on stdin/stdout (local debug cache).
+    GoCacheProg,
 }
 
 fn flag_infer_long_and_short(name: &'static str) -> Arg {
@@ -138,6 +140,9 @@ fn get_clap_command() -> clap::Command {
             flag_infer_long("debug-preprocessor-cache")
                 .help("show all preprocessor cache entries")
                 .action(ArgAction::SetTrue),
+            flag_infer_long("go-cacheprog")
+                .help("run as a Go GOCACHEPROG helper (JSON on stdin/stdout)")
+                .action(ArgAction::SetTrue),
             flag_infer_long("stop-server")
                 .help("stop background server")
                 .action(ArgAction::SetTrue),
@@ -170,6 +175,7 @@ fn get_clap_command() -> clap::Command {
                 .args([
                     "dist-auth",
                     "debug-preprocessor-cache",
+                    "go-cacheprog",
                     "dist-status",
                     "show-stats",
                     "show-adv-stats",
@@ -275,6 +281,8 @@ pub fn try_parse() -> Result<Command> {
                 Ok(Command::StartServer)
             } else if matches.get_flag("debug-preprocessor-cache") {
                 Ok(Command::DebugPreprocessorCacheEntries)
+            } else if matches.get_flag("go-cacheprog") {
+                Ok(Command::GoCacheProg)
             } else if matches.get_flag("stop-server") {
                 Ok(Command::StopServer)
             } else if matches.get_flag("zero-stats") {
