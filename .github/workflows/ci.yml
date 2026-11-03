@@ -128,6 +128,7 @@ jobs:
       GRCOV_EXCLUDE_OPTION: '--excl-br-line "^\s*((debug_)?assert(_eq|_ne)?!|#\[derive\()"'
       NOTEST_CUDA_COMPILERS: ${{ matrix.notest_cuda_compilers || '' }}
       CARGO_PROFILE_DEV_DEBUG: '0' # save disk space
+      HAS_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN != '' }}
     steps:
       - if: ${{ contains(matrix.os, 'windows') }}
         uses: ilammy/msvc-dev-cmd@v1
@@ -238,7 +239,8 @@ jobs:
           echo "report=${COVERAGE_REPORT_FILE}" >> $GITHUB_OUTPUT
 
       - name: Upload coverage results (to Codecov.io)
-        if: ${{ ! matrix.no_coverage }}
+        # Forks without a Codecov integration still run tests and generate coverage.
+        if: ${{ ! matrix.no_coverage && (github.repository == 'mozilla/sccache' || env.HAS_CODECOV_TOKEN == 'true') }}
         uses: codecov/codecov-action@v5
         with:
           files: ${{ steps.coverage.outputs.report }}

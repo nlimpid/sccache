@@ -35,6 +35,8 @@ jobs:
 
   integration-tests:
     runs-on: ubuntu-24.04
+    env:
+      HAS_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN != '' }}
     strategy:
       matrix:
         type: [backends, tools]
@@ -65,6 +67,7 @@ jobs:
           ls ../../target/integration-coverage/reports/lcov.info -l
 
       - name: Upload coverage results (to Codecov.io)
+        if: ${{ github.repository == 'mozilla/sccache' || env.HAS_CODECOV_TOKEN == 'true' }}
         uses: codecov/codecov-action@v5
         with:
           files: target/integration-coverage/reports/lcov.info

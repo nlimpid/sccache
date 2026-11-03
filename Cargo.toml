@@ -97,7 +97,7 @@ reqwest = { version = "0.13", features = [
 semver = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = ">=1.0, <1.0.147" # zmij (used in 1.0.147+) requires Rust 1.84+
-sha2 = { version = "0.10.8", optional = true }
+sha2 = "0.10.8"
 shlex = "2.0.1"
 strip-ansi-escapes = "0.2"
 tar = "0.4.45"
@@ -247,7 +247,6 @@ dist-client = [
   "hyper-util",
   "reqwest",
   "url",
-  "sha2",
 ]
 # Enables the sccache-dist binary
 dist-server = [

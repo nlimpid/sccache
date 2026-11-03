@@ -165,6 +165,8 @@ cargo build
 
 sccache supports gcc, clang, MSVC, rustc, [NVCC](https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html), [NVC++](https://docs.nvidia.com/hpc-sdk//compilers/hpc-compilers-user-guide/index.html), [hipcc](https://rocm.docs.amd.com/projects/HIP/en/latest/index.html), and [Wind River's diab compiler](https://www.windriver.com/products/development-tools/#diab_compiler). Both gcc and msvc support Response Files, read more about their implementation [here](docs/ResponseFiles.md).
 
+Go 1.24 and newer can point `GOCACHEPROG` at `sccache --go-cacheprog` and use sccache as the build cache. That mode is a local debug store, separate from the compiler wrapper, and is described in [the Go doc](docs/Go.md).
+
 If you don't [specify otherwise](#storage-options), sccache will use a local disk cache.
 
 sccache works using a client-server model, where the server runs locally on the same machine as the client. The client-server model allows the server to be more efficient by keeping some state in memory. The sccache command will spawn a server process if one is not already running, or you can run `sccache --start-server` to start the background server process without performing any compilation.

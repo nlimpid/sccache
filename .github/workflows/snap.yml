@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     timeout-minutes: 45
+    env:
+      HAS_SNAPCRAFT_TOKEN: ${{ secrets.SNAPCRAFT_TOKEN != '' }}
 
     steps:
     - name: Check out code
@@ -22,5 +24,5 @@ jobs:
         snapcraft-channel: edge
         review-opts: --allow-classic
         snapcraft-token: ${{ secrets.SNAPCRAFT_TOKEN }}
-        publish: ${{ github.event_name == 'pull_request' && github.repository == github.event.pull_request.head.repo.full_name }}
+        publish: ${{ github.event_name == 'pull_request' && github.repository == github.event.pull_request.head.repo.full_name && env.HAS_SNAPCRAFT_TOKEN == 'true' }}
         publish-channel: edge/pr${{ github.event.number }}

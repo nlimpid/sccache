@@ -39,7 +39,7 @@ parts:
     source: .
     override-pull: |
       craftctl default
-      craftctl set version="$( git -C "${CRAFT_PART_SRC}" describe --tags )"
+      craftctl set version="$( git -C "${CRAFT_PART_SRC}" describe --tags --always )"
     build-packages:
       - libssl-dev
       - make
