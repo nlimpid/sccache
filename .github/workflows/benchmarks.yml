@@ -46,6 +46,8 @@ jobs:
         uses: CodSpeedHQ/action@v4
         env:
           CODSPEED_LOG: debug
+          # Unregistered forks can measure benchmarks without uploading to CodSpeed.
+          CODSPEED_SKIP_UPLOAD: ${{ github.repository != 'mozilla/sccache' && secrets.CODSPEED_TOKEN == '' }}
         with:
           mode: ${{ matrix.mode }}
           run: cargo codspeed run > /dev/null
